@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Kart Detayı - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="account-detail-header">
+        <a href="{{ url_for('cards') }}" class="btn-back">← Geri</a>
+        <h1 class="page-title">Kart Detayı</h1>
+    </div>
+
+    <div class="card-detail-visual">
+        <div class="card-visual-large">
+            <div class="card-chip-large"></div>
+            <div class="card-number-display-large">{{ kart.kart_no[:4] }} {{ kart.kart_no[4:8] }} {{ kart.kart_no[8:12] }} {{ kart.kart_no[12:16] }}</div>
+            <div class="card-footer-display-large">
+                <div>
+                    <p class="card-owner-label">KART SAHİBİ</p>
+                    <p class="card-owner-name">{{ kart.kart_sahibi_adi.upper() }}</p>
+                </div>
+                <div>
+                    <p class="card-expiry-label">GEÇERLİLİK</p>
+                    <p class="card-expiry-date">{{ kart.son_kullanim_tarihi }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-detail-info">
+        <h2 class="section-title">Kart Bilgileri</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Kart Türü:</span>
+                <span class="info-value">{{ kart.kart_turu }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Kart Numarası:</span>
+                <span class="info-value">{{ kart.kart_no[:4] }} **** **** {{ kart.kart_no[-4:] }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Tam Kart Numarası:</span>
+                <span class="info-value sensitive-data">{{ kart.kart_no }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">CVV:</span>
+                <span class="info-value sensitive-data">{{ kart.cvv }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Son Kullanım Tarihi:</span>
+                <span class="info-value">{{ kart.son_kullanim_tarihi }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Kart Sahibi:</span>
+                <span class="info-value">{{ kart.kart_sahibi_adi }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Durum:</span>
+                <span class="info-value badge-{{ kart.durum|lower }}">{{ kart.durum }}</span>
+            </div>
+            {% if kart.limit > 0 %}
+            <div class="info-item">
+                <span class="info-label">Kredi Kartı Limit:</span>
+                <span class="info-value">{{ "%.2f"|format(kart.limit) }} TL</span>
+            </div>
+            {% endif %}
+            <div class="info-item">
+                <span class="info-label">Bağlı Hesap:</span>
+                <span class="info-value">{{ kart.hesap.hesap_no }} ({{ kart.hesap.hesap_turu }})</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Hesap Bakiyesi:</span>
+                <span class="info-value">{{ "%.2f"|format(kart.hesap.bakiye) }} TL</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Oluşturulma Tarihi:</span>
+                <span class="info-value">{{ kart.created_at.strftime('%d.%m.%Y') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="warning-box">
+        <strong>⚠️ Güvenlik Uyarısı:</strong> Kart bilgilerinizi kimseyle paylaşmayın. CVV numaranızı sadece güvenilir sitelerde kullanın.
+    </div>
+</div>
+{% endblock %}
+
+

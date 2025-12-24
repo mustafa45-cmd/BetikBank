@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Yatırım Hesaplarım - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Yatırım Hesaplarım</h1>
+        <a href="{{ url_for('new_investment') }}" class="btn btn-primary">+ Yeni Yatırım Hesabı Aç</a>
+    </div>
+
+    {% if yatirim_hesaplari %}
+    <div class="investment-list">
+        {% for yatirim in yatirim_hesaplari %}
+        <div class="investment-item-large">
+            <div class="investment-header-large">
+                <div>
+                    <h3>{{ yatirim.yatirim_turu }}</h3>
+                    <p class="investment-account-number">{{ yatirim.hesap_no }}</p>
+                </div>
+                <span class="investment-status-badge status-{{ yatirim.durum|lower }}">{{ yatirim.durum }}</span>
+            </div>
+            <div class="investment-body-large">
+                <div class="investment-stat">
+                    <span class="stat-label">Toplam Bakiye</span>
+                    <span class="stat-value">{{ "%.2f"|format(yatirim.toplam_bakiye) }} TL</span>
+                </div>
+                <div class="investment-stat">
+                    <span class="stat-label">Kar/Zarar</span>
+                    <span class="stat-value {% if yatirim.kar_zarar >= 0 %}text-success{% else %}text-danger{% endif %}">
+                        {% if yatirim.kar_zarar >= 0 %}+{% endif %}{{ "%.2f"|format(yatirim.kar_zarar) }} TL
+                    </span>
+                </div>
+                <div class="investment-stat">
+                    <span class="stat-label">Açılış Tarihi</span>
+                    <span class="stat-value">{{ yatirim.created_at.strftime('%d.%m.%Y') }}</span>
+                </div>
+            </div>
+            <div class="investment-footer-large">
+                <a href="{{ url_for('investment_detail', yatirim_id=yatirim.id) }}" class="btn btn-secondary">Detayları Gör</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state-large">
+        <div class="empty-icon">📈</div>
+        <h2>Henüz yatırım hesabınız bulunmamaktadır</h2>
+        <p>Birikimlerinizi değerlendirmek için yatırım hesabı açabilirsiniz.</p>
+        <a href="{{ url_for('new_investment') }}" class="btn btn-primary">Yatırım Hesabı Aç</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+

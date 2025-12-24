@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa - BetikBank{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="container">
+        <h1 class="page-title">Hoş Geldiniz, {{ current_user.ad }} {{ current_user.soyad }}</h1>
+        
+        <div class="accounts-section">
+            <h2 class="section-title">Hesaplarım</h2>
+            <div class="accounts-grid">
+                {% for hesap in hesaplar %}
+                <div class="account-card">
+                    <div class="account-header">
+                        <h3>{{ hesap.hesap_turu }}</h3>
+                        <span class="account-badge">Aktif</span>
+                    </div>
+                    <div class="account-body">
+                        <p class="account-number">{{ hesap.hesap_no }}</p>
+                        <p class="account-balance">{{ "%.2f"|format(hesap.bakiye) }} TL</p>
+                    </div>
+                    <div class="account-footer">
+                        <a href="{{ url_for('account_detail', hesap_id=hesap.id) }}" class="btn btn-secondary btn-small">Detaylar</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% for yatirim in yatirim_hesaplari %}
+                <div class="account-card investment-account-card">
+                    <div class="account-header">
+                        <h3>📈 {{ yatirim.yatirim_turu }}</h3>
+                        <span class="account-badge investment-badge">Yatırım</span>
+                    </div>
+                    <div class="account-body">
+                        <p class="account-number">{{ yatirim.hesap_no }}</p>
+                        <p class="account-balance">{{ "%.2f"|format(yatirim.toplam_bakiye) }} TL</p>
+                        {% if yatirim.kar_zarar != 0 %}
+                        <p class="account-profit {% if yatirim.kar_zarar >= 0 %}text-success{% else %}text-danger{% endif %}" style="font-size: 0.9rem; margin-top: 0.5rem;">
+                            {% if yatirim.kar_zarar >= 0 %}+{% endif %}{{ "%.2f"|format(yatirim.kar_zarar) }} TL
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="account-footer">
+                        <a href="{{ url_for('investment_detail', yatirim_id=yatirim.id) }}" class="btn btn-secondary btn-small">Detaylar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if hesaplar|length == 0 and (yatirim_hesaplari|length == 0 if yatirim_hesaplari else True) %}
+            <p class="empty-state">Henüz hesabınız bulunmamaktadır.</p>
+            {% endif %}
+        </div>
+
+        <div class="cards-section">
+            <div class="section-header">
+                <h2 class="section-title">Kartlarım</h2>
+                <a href="{{ url_for('cards') }}" class="btn-link">Tümünü Gör</a>
+            </div>
+            {% if kartlar and kartlar|length > 0 %}
+            <div class="cards-grid">
+                {% for kart in kartlar[:3] %}
+                <div class="card-item">
+                    <div class="card-header">
+                        <h3>{{ kart.kart_turu }}</h3>
+                        <span class="card-status">{{ kart.durum }}</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-number">**** **** **** {{ kart.kart_no[-4:] }}</p>
+                        <p class="card-owner">{{ kart.kart_sahibi_adi }}</p>
+                        <p class="card-expiry">SKT: {{ kart.son_kullanim_tarihi }}</p>
+                        {% if kart.limit > 0 %}
+                        <p class="card-limit">Limit: {{ "%.2f"|format(kart.limit) }} TL</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('card_detail', kart_id=kart.id) }}" class="btn btn-secondary btn-small">Detaylar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-state">Henüz kartınız bulunmamaktadır. <a href="{{ url_for('new_card') }}">Yeni kart oluşturun</a></p>
+            {% endif %}
+        </div>
+
+        <div class="investment-section">
+            <div class="section-header">
+                <h2 class="section-title">Yatırım Hesaplarım</h2>
+                <a href="{{ url_for('investment') }}" class="btn-link">Tümünü Gör</a>
+            </div>
+            {% if yatirim_hesaplari and yatirim_hesaplari|length > 0 %}
+            <div class="investment-grid">
+                {% for yatirim in yatirim_hesaplari[:3] %}
+                <div class="investment-card">
+                    <div class="investment-header">
+                        <h3>{{ yatirim.yatirim_turu }}</h3>
+                        <span class="investment-status">{{ yatirim.durum }}</span>
+                    </div>
+                    <div class="investment-body">
+                        <p class="investment-number">{{ yatirim.hesap_no }}</p>
+                        <p class="investment-balance">{{ "%.2f"|format(yatirim.toplam_bakiye) }} TL</p>
+                        <p class="investment-profit {% if yatirim.kar_zarar >= 0 %}text-success{% else %}text-danger{% endif %}">
+                            {% if yatirim.kar_zarar >= 0 %}+{% endif %}{{ "%.2f"|format(yatirim.kar_zarar) }} TL
+                        </p>
+                    </div>
+                    <div class="investment-footer">
+                        <a href="{{ url_for('investment_detail', yatirim_id=yatirim.id) }}" class="btn btn-secondary btn-small">Detaylar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-state">Henüz yatırım hesabınız bulunmamaktadır. <a href="{{ url_for('new_investment') }}">Yeni yatırım hesabı açın</a></p>
+            {% endif %}
+        </div>
+
+        <div class="transactions-section">
+            <h2 class="section-title">Son İşlemler</h2>
+            {% if son_islemler %}
+            <div class="transactions-table-container">
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Açıklama</th>
+                            <th>Gönderen</th>
+                            <th>Alıcı</th>
+                            <th>Tutar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for islem in son_islemler %}
+                        <tr>
+                            <td>{{ islem.tarih.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>{{ islem.aciklama or '-' }}</td>
+                            <td>{{ islem.gonderen_hesap.hesap_no }}</td>
+                            <td>{{ islem.alici_hesap.hesap_no }}</td>
+                            <td class="{% if islem.alici_hesap.kullanici_id == current_user.id %}text-success{% else %}text-danger{% endif %}">
+                                {% if islem.alici_hesap.kullanici_id == current_user.id %}+{% else %}-{% endif %}{{ "%.2f"|format(islem.tutar) }} TL
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center" style="margin-top: 20px;">
+                <a href="{{ url_for('transactions') }}" class="btn btn-secondary">Tüm İşlemleri Görüntüle</a>
+            </div>
+            {% else %}
+            <p class="empty-state">Henüz işlem yapılmamış.</p>
+            {% endif %}
+        </div>
+
+        <div class="quick-actions">
+            <h2 class="section-title">Hızlı İşlemler</h2>
+            <div class="actions-grid">
+                <a href="{{ url_for('transfer') }}" class="action-card">
+                    <div class="action-icon">💸</div>
+                    <h3>Para Transferi</h3>
+                    <p>Hızlı para transferi yap</p>
+                </a>
+                <a href="{{ url_for('new_card') }}" class="action-card">
+                    <div class="action-icon">💳</div>
+                    <h3>Yeni Kart</h3>
+                    <p>Yeni kart oluştur</p>
+                </a>
+                <a href="{{ url_for('new_investment') }}" class="action-card">
+                    <div class="action-icon">📈</div>
+                    <h3>Yatırım Hesabı Aç</h3>
+                    <p>Yeni yatırım hesabı aç</p>
+                </a>
+                <a href="{{ url_for('transactions') }}" class="action-card">
+                    <div class="action-icon">📋</div>
+                    <h3>İşlem Geçmişi</h3>
+                    <p>Tüm işlemlerinizi görüntüle</p>
+                </a>
+                <a href="{{ url_for('cards') }}" class="action-card">
+                    <div class="action-icon">💳</div>
+                    <h3>Kartlarım</h3>
+                    <p>Kartlarınızı yönetin</p>
+                </a>
+                <a href="{{ url_for('investment') }}" class="action-card">
+                    <div class="action-icon">📊</div>
+                    <h3>Yatırımlarım</h3>
+                    <p>Yatırım hesaplarınızı görüntüle</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

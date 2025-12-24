@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Kartlarım - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Kartlarım</h1>
+        <a href="{{ url_for('new_card') }}" class="btn btn-primary">+ Yeni Kart Oluştur</a>
+    </div>
+
+    {% if kartlar %}
+    <div class="cards-list">
+        {% for kart in kartlar %}
+        <div class="card-item-large">
+            <div class="card-visual">
+                <div class="card-chip"></div>
+                <div class="card-number-display">{{ kart.kart_no[:4] }} {{ kart.kart_no[4:8] }} {{ kart.kart_no[8:12] }} {{ kart.kart_no[12:16] }}</div>
+                <div class="card-footer-display">
+                    <div>
+                        <p class="card-owner-label">KART SAHİBİ</p>
+                        <p class="card-owner-name">{{ kart.kart_sahibi_adi.upper() }}</p>
+                    </div>
+                    <div>
+                        <p class="card-expiry-label">GEÇERLİLİK</p>
+                        <p class="card-expiry-date">{{ kart.son_kullanim_tarihi }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="info-row">
+                    <span class="info-label">Kart Türü:</span>
+                    <span class="info-value">{{ kart.kart_turu }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Kart Numarası:</span>
+                    <span class="info-value">**** **** **** {{ kart.kart_no[-4:] }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">CVV:</span>
+                    <span class="info-value">***</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Durum:</span>
+                    <span class="info-value badge-{{ kart.durum|lower }}">{{ kart.durum }}</span>
+                </div>
+                {% if kart.limit > 0 %}
+                <div class="info-row">
+                    <span class="info-label">Limit:</span>
+                    <span class="info-value">{{ "%.2f"|format(kart.limit) }} TL</span>
+                </div>
+                {% endif %}
+                <div class="info-row">
+                    <span class="info-label">Bağlı Hesap:</span>
+                    <span class="info-value">{{ kart.hesap.hesap_no }}</span>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('card_detail', kart_id=kart.id) }}" class="btn btn-secondary">Detayları Gör</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state-large">
+        <div class="empty-icon">💳</div>
+        <h2>Henüz kartınız bulunmamaktadır</h2>
+        <p>İşlemlerinizi kolaylaştırmak için yeni bir kart oluşturabilirsiniz.</p>
+        <a href="{{ url_for('new_card') }}" class="btn btn-primary">Yeni Kart Oluştur</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+

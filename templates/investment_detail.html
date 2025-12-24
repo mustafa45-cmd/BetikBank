@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Yatırım Hesabı Detayı - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="account-detail-header">
+        <a href="{{ url_for('investment') }}" class="btn-back">← Geri</a>
+        <h1 class="page-title">Yatırım Hesabı Detayı</h1>
+    </div>
+
+    <div class="investment-detail-card">
+        <div class="investment-detail-header">
+            <div>
+                <h2>{{ yatirim.yatirim_turu }}</h2>
+                <p class="investment-account-number">{{ yatirim.hesap_no }}</p>
+            </div>
+            <span class="investment-status-badge status-{{ yatirim.durum|lower }}">{{ yatirim.durum }}</span>
+        </div>
+        
+        <div class="investment-detail-body">
+            <div class="investment-detail-stat">
+                <span class="stat-label-large">Toplam Bakiye</span>
+                <span class="stat-value-large">{{ "%.2f"|format(yatirim.toplam_bakiye) }} TL</span>
+            </div>
+            <div class="investment-detail-stat">
+                <span class="stat-label-large">Toplam Kar/Zarar</span>
+                <span class="stat-value-large {% if yatirim.kar_zarar >= 0 %}text-success{% else %}text-danger{% endif %}">
+                    {% if yatirim.kar_zarar >= 0 %}+{% endif %}{{ "%.2f"|format(yatirim.kar_zarar) }} TL
+                </span>
+            </div>
+            {% if yatirim.toplam_bakiye > 0 %}
+            <div class="investment-detail-stat">
+                <span class="stat-label-large">Getiri Oranı</span>
+                <span class="stat-value-large {% if yatirim.kar_zarar >= 0 %}text-success{% else %}text-danger{% endif %}">
+                    {% set getiri_orani = (yatirim.kar_zarar / (yatirim.toplam_bakiye - yatirim.kar_zarar) * 100) if (yatirim.toplam_bakiye - yatirim.kar_zarar) > 0 else 0 %}
+                    {% if yatirim.kar_zarar >= 0 %}+{% endif %}{{ "%.2f"|format(getiri_orani) }}%
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="investment-info-section">
+        <h2 class="section-title">Hesap Bilgileri</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Yatırım Türü:</span>
+                <span class="info-value">{{ yatirim.yatirim_turu }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Hesap Numarası:</span>
+                <span class="info-value">{{ yatirim.hesap_no }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Durum:</span>
+                <span class="info-value badge-{{ yatirim.durum|lower }}">{{ yatirim.durum }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Açılış Tarihi:</span>
+                <span class="info-value">{{ yatirim.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <strong>ℹ️ Not:</strong> Yatırım hesaplarınızdan para çekme ve yatırma işlemleri yakında eklenecektir.
+    </div>
+</div>
+{% endblock %}
+
+

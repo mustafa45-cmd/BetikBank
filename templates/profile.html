@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Profil - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Profil Bilgileri</h1>
+    
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {{ user.ad[0] }}{{ user.soyad[0] }}
+            </div>
+            <h2>{{ user.ad }} {{ user.soyad }}</h2>
+        </div>
+        
+        <div class="profile-info">
+            <div class="info-item">
+                <span class="info-label">TC Kimlik Numarası:</span>
+                <span class="info-value">{{ user.tc_no }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">E-posta:</span>
+                <span class="info-value">{{ user.email }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Telefon:</span>
+                <span class="info-value">{{ user.telefon }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Üyelik Tarihi:</span>
+                <span class="info-value">{{ user.created_at.strftime('%d.%m.%Y') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Ana Sayfaya Dön</a>
+    </div>
+</div>
+{% endblock %}
+
+

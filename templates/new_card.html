@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Yeni Kart Oluştur - BetikBank{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <h2>Yeni Kart Oluştur</h2>
+        <form method="POST" action="{{ url_for('new_card') }}" class="card-form">
+            <div class="form-group">
+                <label for="hesap_id">Bağlı Hesap</label>
+                <select id="hesap_id" name="hesap_id" required>
+                    <option value="">Hesap Seçiniz</option>
+                    {% for hesap in hesaplar %}
+                    <option value="{{ hesap.id }}">
+                        {{ hesap.hesap_no }} - {{ hesap.hesap_turu }} ({{ "%.2f"|format(hesap.bakiye) }} TL)
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kart_turu">Kart Türü</label>
+                <select id="kart_turu" name="kart_turu" required>
+                    <option value="">Kart Türü Seçiniz</option>
+                    <option value="Banka Kartı">Banka Kartı</option>
+                    <option value="Kredi Kartı">Kredi Kartı</option>
+                    <option value="Sanal Kart">Sanal Kart</option>
+                </select>
+            </div>
+            <div class="form-group" id="limit-group" style="display: none;">
+                <label for="limit">Kredi Kartı Limit (TL)</label>
+                <input type="number" id="limit" name="limit" step="100" min="1000" max="50000" value="10000" placeholder="10000">
+                <small class="form-hint">Minimum 1.000 TL, Maksimum 50.000 TL</small>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-full">Kart Oluştur</button>
+                <a href="{{ url_for('cards') }}" class="btn btn-secondary btn-full">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('kart_turu').addEventListener('change', function() {
+    const limitGroup = document.getElementById('limit-group');
+    if (this.value === 'Kredi Kartı') {
+        limitGroup.style.display = 'block';
+    } else {
+        limitGroup.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}
+
+

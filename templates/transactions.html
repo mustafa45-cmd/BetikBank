@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}İşlem Geçmişi - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">İşlem Geçmişi</h1>
+    
+    <div class="filter-section">
+        <form method="GET" action="{{ url_for('transactions') }}" class="filter-form">
+            <div class="form-group">
+                <label for="hesap_id">Hesap Seçiniz</label>
+                <select id="hesap_id" name="hesap_id" onchange="this.form.submit()">
+                    <option value="">Tüm Hesaplar</option>
+                    {% for hesap in hesaplar %}
+                    <option value="{{ hesap.id }}" {% if selected_hesap_id == hesap.id %}selected{% endif %}>
+                        {{ hesap.hesap_no }} - {{ hesap.hesap_turu }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+
+    {% if islemler %}
+    <div class="transactions-table-container">
+        <table class="transactions-table">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Açıklama</th>
+                    <th>Gönderen Hesap</th>
+                    <th>Alıcı Hesap</th>
+                    <th>Tutar</th>
+                    <th>İşlem Türü</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for islem in islemler %}
+                <tr>
+                    <td>{{ islem.tarih.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td>{{ islem.aciklama or '-' }}</td>
+                    <td>{{ islem.gonderen_hesap.hesap_no }}</td>
+                    <td>{{ islem.alici_hesap.hesap_no }}</td>
+                    <td class="{% if islem.alici_hesap.kullanici_id == current_user.id %}text-success{% else %}text-danger{% endif %}">
+                        {% if islem.alici_hesap.kullanici_id == current_user.id %}+{% else %}-{% endif %}{{ "%.2f"|format(islem.tutar) }} TL
+                    </td>
+                    <td>{{ islem.islem_turu }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>Henüz işlem yapılmamış.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+

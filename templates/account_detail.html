@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Hesap Detayı - BetikBank{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="account-detail-header">
+        <a href="{{ url_for('dashboard') }}" class="btn-back">← Geri</a>
+        <h1 class="page-title">Hesap Detayı</h1>
+    </div>
+
+    <div class="account-detail-card">
+        <div class="account-info">
+            <div class="info-item">
+                <span class="info-label">Hesap Numarası:</span>
+                <span class="info-value">{{ hesap.hesap_no }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Hesap Türü:</span>
+                <span class="info-value">{{ hesap.hesap_turu }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Bakiye:</span>
+                <span class="info-value balance">{{ "%.2f"|format(hesap.bakiye) }} TL</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Oluşturulma Tarihi:</span>
+                <span class="info-value">{{ hesap.created_at.strftime('%d.%m.%Y') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="transactions-section">
+        <h2 class="section-title">Hesap İşlem Geçmişi</h2>
+        {% if islemler %}
+        <div class="transactions-table-container">
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>Açıklama</th>
+                        <th>Gönderen</th>
+                        <th>Alıcı</th>
+                        <th>Tutar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for islem in islemler %}
+                    <tr>
+                        <td>{{ islem.tarih.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ islem.aciklama or '-' }}</td>
+                        <td>{{ islem.gonderen_hesap.hesap_no }}</td>
+                        <td>{{ islem.alici_hesap.hesap_no }}</td>
+                        <td class="{% if islem.alici_hesap_id == hesap.id %}text-success{% else %}text-danger{% endif %}">
+                            {% if islem.alici_hesap_id == hesap.id %}+{% else %}-{% endif %}{{ "%.2f"|format(islem.tutar) }} TL
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>Bu hesapta henüz işlem yapılmamış.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
