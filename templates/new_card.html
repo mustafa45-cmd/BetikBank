@@ -1,3 +1,4 @@
+<!-- Yeni Kart Oluşturma Sayfası -->
 {% extends "base.html" %}
 
 {% block title %}Yeni Kart Oluştur - BetikBank{% endblock %}
@@ -6,7 +7,9 @@
 <div class="form-container">
     <div class="form-card">
         <h2>Yeni Kart Oluştur</h2>
+        <!-- Kart Oluşturma Formu -->
         <form method="POST" action="{{ url_for('new_card') }}" class="card-form">
+            <!-- Bağlı Hesap Seçimi -->
             <div class="form-group">
                 <label for="hesap_id">Bağlı Hesap</label>
                 <select id="hesap_id" name="hesap_id" required>
@@ -18,6 +21,8 @@
                     {% endfor %}
                 </select>
             </div>
+            
+            <!-- Kart Türü Seçimi -->
             <div class="form-group">
                 <label for="kart_turu">Kart Türü</label>
                 <select id="kart_turu" name="kart_turu" required>
@@ -27,11 +32,15 @@
                     <option value="Sanal Kart">Sanal Kart</option>
                 </select>
             </div>
+            
+            <!-- Kredi Kartı Limit Alanı (Sadece kredi kartı seçildiğinde görünür) -->
             <div class="form-group" id="limit-group" style="display: none;">
                 <label for="limit">Kredi Kartı Limit (TL)</label>
                 <input type="number" id="limit" name="limit" step="100" min="1000" max="50000" value="10000" placeholder="10000">
                 <small class="form-hint">Minimum 1.000 TL, Maksimum 50.000 TL</small>
             </div>
+            
+            <!-- Form Butonları -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary btn-full">Kart Oluştur</button>
                 <a href="{{ url_for('cards') }}" class="btn btn-secondary btn-full">İptal</a>
@@ -40,16 +49,20 @@
     </div>
 </div>
 
+<!-- JavaScript - Kredi kartı seçildiğinde limit alanını göster -->
 <script>
 document.getElementById('kart_turu').addEventListener('change', function() {
     const limitGroup = document.getElementById('limit-group');
     if (this.value === 'Kredi Kartı') {
-        limitGroup.style.display = 'block';
+        limitGroup.style.display = 'block';  // Limit alanını göster
     } else {
-        limitGroup.style.display = 'none';
+        limitGroup.style.display = 'none';  // Limit alanını gizle
     }
 });
 </script>
 {% endblock %}
+
+
+
 
 

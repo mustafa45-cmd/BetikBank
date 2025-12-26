@@ -1,3 +1,4 @@
+<!-- Profil Sayfası - Kullanıcı bilgilerini gösterir -->
 {% extends "base.html" %}
 
 {% block title %}Profil - BetikBank{% endblock %}
@@ -7,13 +8,15 @@
     <h1 class="page-title">Profil Bilgileri</h1>
     
     <div class="profile-card">
+        <!-- Profil Başlığı ve Avatar -->
         <div class="profile-header">
             <div class="profile-avatar">
-                {{ user.ad[0] }}{{ user.soyad[0] }}
+                {{ user.ad[0] }}{{ user.soyad[0] }}  <!-- İsim ve soyadın ilk harfleri -->
             </div>
             <h2>{{ user.ad }} {{ user.soyad }}</h2>
         </div>
         
+        <!-- Profil Bilgileri -->
         <div class="profile-info">
             <div class="info-item">
                 <span class="info-label">TC Kimlik Numarası:</span>
@@ -39,5 +42,8 @@
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

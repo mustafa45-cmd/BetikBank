@@ -1,3 +1,4 @@
+<!-- Para Transferi Sayfası - Hesaplar arası para transferi formu -->
 {% extends "base.html" %}
 
 {% block title %}Para Transferi - BetikBank{% endblock %}
@@ -6,7 +7,9 @@
 <div class="form-container">
     <div class="form-card">
         <h2>Para Transferi</h2>
+        <!-- Transfer Formu -->
         <form method="POST" action="{{ url_for('transfer') }}" class="transfer-form">
+            <!-- Gönderen Hesap Seçimi -->
             <div class="form-group">
                 <label for="gonderen_hesap">Gönderen Hesap</label>
                 <select id="gonderen_hesap" name="gonderen_hesap" required>
@@ -18,18 +21,26 @@
                     {% endfor %}
                 </select>
             </div>
+            
+            <!-- Alıcı Hesap Numarası -->
             <div class="form-group">
                 <label for="alici_hesap_no">Alıcı Hesap Numarası</label>
                 <input type="text" id="alici_hesap_no" name="alici_hesap_no" maxlength="16" required placeholder="16 haneli hesap numarası">
             </div>
+            
+            <!-- Transfer Tutarı -->
             <div class="form-group">
                 <label for="tutar">Tutar (TL)</label>
                 <input type="number" id="tutar" name="tutar" step="0.01" min="0.01" required placeholder="0.00">
             </div>
+            
+            <!-- Açıklama (Opsiyonel) -->
             <div class="form-group">
                 <label for="aciklama">Açıklama (Opsiyonel)</label>
                 <textarea id="aciklama" name="aciklama" rows="3" maxlength="200" placeholder="Transfer açıklaması"></textarea>
             </div>
+            
+            <!-- Form Butonları -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary btn-full">Transfer Et</button>
                 <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-full">İptal</a>
@@ -38,5 +49,8 @@
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

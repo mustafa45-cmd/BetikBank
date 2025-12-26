@@ -1,3 +1,4 @@
+<!-- İşlem Geçmişi Sayfası - Tüm işlemleri listeler -->
 {% extends "base.html" %}
 
 {% block title %}İşlem Geçmişi - BetikBank{% endblock %}
@@ -6,6 +7,7 @@
 <div class="container">
     <h1 class="page-title">İşlem Geçmişi</h1>
     
+    <!-- Hesap Filtreleme -->
     <div class="filter-section">
         <form method="GET" action="{{ url_for('transactions') }}" class="filter-form">
             <div class="form-group">
@@ -22,6 +24,7 @@
         </form>
     </div>
 
+    <!-- İşlemler Tablosu -->
     {% if islemler %}
     <div class="transactions-table-container">
         <table class="transactions-table">
@@ -58,5 +61,8 @@
     {% endif %}
 </div>
 {% endblock %}
+
+
+
 
 

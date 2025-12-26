@@ -1,3 +1,4 @@
+<!-- Giriş Sayfası - Kullanıcı girişi için form -->
 {% extends "base.html" %}
 
 {% block title %}Giriş Yap - BetikBank{% endblock %}
@@ -6,22 +7,33 @@
 <div class="auth-container">
     <div class="auth-card">
         <h2>Giriş Yap</h2>
+        <!-- Giriş Formu -->
         <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+            <!-- TC Kimlik Numarası Girişi -->
             <div class="form-group">
                 <label for="tc_no">TC Kimlik Numarası</label>
                 <input type="text" id="tc_no" name="tc_no" maxlength="11" required autofocus>
             </div>
+            
+            <!-- Şifre Girişi -->
             <div class="form-group">
                 <label for="password">Şifre</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            
+            <!-- Gönder Butonu -->
             <button type="submit" class="btn btn-primary btn-full">Giriş Yap</button>
         </form>
+        
+        <!-- Kayıt Ol Linki -->
         <p class="auth-link">
             Hesabınız yok mu? <a href="{{ url_for('register') }}">Kayıt Olun</a>
         </p>
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

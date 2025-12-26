@@ -1,3 +1,4 @@
+<!-- Dashboard Sayfası - Ana kontrol paneli -->
 {% extends "base.html" %}
 
 {% block title %}Ana Sayfa - BetikBank{% endblock %}
@@ -5,11 +6,14 @@
 {% block content %}
 <div class="dashboard-container">
     <div class="container">
+        <!-- Kullanıcı Hoş Geldin Mesajı -->
         <h1 class="page-title">Hoş Geldiniz, {{ current_user.ad }} {{ current_user.soyad }}</h1>
         
+        <!-- Hesaplar Bölümü -->
         <div class="accounts-section">
             <h2 class="section-title">Hesaplarım</h2>
             <div class="accounts-grid">
+                <!-- Normal Banka Hesapları -->
                 {% for hesap in hesaplar %}
                 <div class="account-card">
                     <div class="account-header">
@@ -25,6 +29,8 @@
                     </div>
                 </div>
                 {% endfor %}
+                
+                <!-- Yatırım Hesapları -->
                 {% for yatirim in yatirim_hesaplari %}
                 <div class="account-card investment-account-card">
                     <div class="account-header">
@@ -51,12 +57,14 @@
             {% endif %}
         </div>
 
+        <!-- Kartlar Bölümü -->
         <div class="cards-section">
             <div class="section-header">
                 <h2 class="section-title">Kartlarım</h2>
                 <a href="{{ url_for('cards') }}" class="btn-link">Tümünü Gör</a>
             </div>
             {% if kartlar and kartlar|length > 0 %}
+            <!-- İlk 3 kartı göster -->
             <div class="cards-grid">
                 {% for kart in kartlar[:3] %}
                 <div class="card-item">
@@ -83,12 +91,14 @@
             {% endif %}
         </div>
 
+        <!-- Yatırım Hesapları Bölümü -->
         <div class="investment-section">
             <div class="section-header">
                 <h2 class="section-title">Yatırım Hesaplarım</h2>
                 <a href="{{ url_for('investment') }}" class="btn-link">Tümünü Gör</a>
             </div>
             {% if yatirim_hesaplari and yatirim_hesaplari|length > 0 %}
+            <!-- İlk 3 yatırım hesabını göster -->
             <div class="investment-grid">
                 {% for yatirim in yatirim_hesaplari[:3] %}
                 <div class="investment-card">
@@ -114,6 +124,7 @@
             {% endif %}
         </div>
 
+        <!-- Son İşlemler Bölümü -->
         <div class="transactions-section">
             <h2 class="section-title">Son İşlemler</h2>
             {% if son_islemler %}
@@ -129,6 +140,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Son 10 işlemi göster -->
                         {% for islem in son_islemler %}
                         <tr>
                             <td>{{ islem.tarih.strftime('%d.%m.%Y %H:%M') }}</td>
@@ -151,9 +163,11 @@
             {% endif %}
         </div>
 
+        <!-- Hızlı İşlemler Bölümü -->
         <div class="quick-actions">
             <h2 class="section-title">Hızlı İşlemler</h2>
             <div class="actions-grid">
+                <!-- Para Transferi -->
                 <a href="{{ url_for('transfer') }}" class="action-card">
                     <div class="action-icon">💸</div>
                     <h3>Para Transferi</h3>

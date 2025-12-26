@@ -1,11 +1,14 @@
+<!-- Ana Sayfa - Giriş yapılmamış kullanıcılar için -->
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Hero Bölümü - Ana başlık ve çağrı butonları -->
 <div class="hero-section">
     <div class="container">
         <div class="hero-content">
             <h1 class="hero-title">BetikBank'a Hoş Geldiniz</h1>
             <p class="hero-subtitle">Modern ve güvenli internet bankacılığı deneyimi</p>
+            <!-- Aksiyon Butonları -->
             <div class="hero-buttons">
                 <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">Hemen Başla</a>
                 <a href="{{ url_for('login') }}" class="btn btn-secondary btn-large">Giriş Yap</a>
@@ -14,25 +17,33 @@
     </div>
 </div>
 
+<!-- Özellikler Bölümü - Sistem özelliklerini tanıtır -->
 <div class="features-section">
     <div class="container">
         <h2 class="section-title">Özelliklerimiz</h2>
         <div class="features-grid">
+            <!-- Hesap Yönetimi Özelliği -->
             <div class="feature-card">
                 <div class="feature-icon">💳</div>
                 <h3>Hesap Yönetimi</h3>
                 <p>Hesaplarınızı kolayca görüntüleyin ve yönetin</p>
             </div>
+            
+            <!-- Para Transferi Özelliği -->
             <div class="feature-card">
                 <div class="feature-icon">🔄</div>
                 <h3>Para Transferi</h3>
                 <p>Hızlı ve güvenli para transferi işlemleri</p>
             </div>
+            
+            <!-- İşlem Geçmişi Özelliği -->
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
                 <h3>İşlem Geçmişi</h3>
                 <p>Tüm işlemlerinizi detaylı olarak görüntüleyin</p>
             </div>
+            
+            <!-- Güvenlik Özelliği -->
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
                 <h3>Güvenli Bankacılık</h3>
@@ -42,5 +53,8 @@
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

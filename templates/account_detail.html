@@ -1,14 +1,17 @@
+<!-- Hesap Detayı Sayfası - Belirli bir hesabın detaylarını gösterir -->
 {% extends "base.html" %}
 
 {% block title %}Hesap Detayı - BetikBank{% endblock %}
 
 {% block content %}
 <div class="container">
+    <!-- Sayfa Başlığı ve Geri Butonu -->
     <div class="account-detail-header">
         <a href="{{ url_for('dashboard') }}" class="btn-back">← Geri</a>
         <h1 class="page-title">Hesap Detayı</h1>
     </div>
 
+    <!-- Hesap Bilgileri Kartı -->
     <div class="account-detail-card">
         <div class="account-info">
             <div class="info-item">
@@ -67,5 +70,8 @@
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

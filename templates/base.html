@@ -1,20 +1,33 @@
 <!DOCTYPE html>
+<!-- Base Template - Tüm sayfalar için ortak şablon -->
 <html lang="tr">
 <head>
+    <!-- Meta etiketleri -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Sayfa başlığı - Alt sayfalar title bloğunu override edebilir -->
     <title>{% block title %}BetikBank - İnternet Bankacılığı{% endblock %}</title>
+    
+    <!-- CSS dosyası -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts - Inter font ailesi -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Üst Navigasyon Menüsü -->
     <nav class="navbar">
         <div class="container">
+            <!-- Logo/Brand -->
             <div class="nav-brand">
                 <h1>🏦 BetikBank</h1>
             </div>
+            
+            <!-- Menü Öğeleri -->
             <div class="nav-menu">
                 {% if current_user.is_authenticated %}
+                    <!-- Giriş yapılmış kullanıcılar için menü -->
                     <a href="{{ url_for('dashboard') }}">Ana Sayfa</a>
                     <a href="{{ url_for('transfer') }}">Para Transferi</a>
                     <a href="{{ url_for('cards') }}">Kartlarım</a>
@@ -23,6 +36,7 @@
                     <a href="{{ url_for('profile') }}">Profil</a>
                     <a href="{{ url_for('logout') }}" class="btn-logout">Çıkış Yap</a>
                 {% else %}
+                    <!-- Giriş yapılmamış kullanıcılar için menü -->
                     <a href="{{ url_for('login') }}">Giriş Yap</a>
                     <a href="{{ url_for('register') }}" class="btn-primary">Kayıt Ol</a>
                 {% endif %}
@@ -30,13 +44,16 @@
         </div>
     </nav>
 
+    <!-- Ana İçerik Alanı -->
     <main class="main-content">
+        <!-- Flash Mesajları - Başarı, hata, bilgi mesajları -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
                     {% for category, message in messages %}
                         <div class="flash-message flash-{{ category }}">
                             <span>{{ message }}</span>
+                            <!-- Mesajı kapatma butonu -->
                             <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
                         </div>
                     {% endfor %}
@@ -44,15 +61,18 @@
             {% endif %}
         {% endwith %}
 
+        <!-- İçerik Bloğu - Alt sayfalar buraya içerik ekler -->
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Footer (Alt Bilgi) -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2024 BetikBank. Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
+    <!-- JavaScript dosyası -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

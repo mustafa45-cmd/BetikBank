@@ -1,14 +1,17 @@
+<!-- Yatırım Hesabı Detayı Sayfası - Belirli bir yatırım hesabının detaylarını gösterir -->
 {% extends "base.html" %}
 
 {% block title %}Yatırım Hesabı Detayı - BetikBank{% endblock %}
 
 {% block content %}
 <div class="container">
+    <!-- Sayfa Başlığı ve Geri Butonu -->
     <div class="account-detail-header">
         <a href="{{ url_for('investment') }}" class="btn-back">← Geri</a>
         <h1 class="page-title">Yatırım Hesabı Detayı</h1>
     </div>
 
+    <!-- Yatırım Hesabı Detay Kartı -->
     <div class="investment-detail-card">
         <div class="investment-detail-header">
             <div>
@@ -68,5 +71,8 @@
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

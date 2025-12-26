@@ -1,3 +1,4 @@
+<!-- Yeni Yatırım Hesabı Açma Sayfası -->
 {% extends "base.html" %}
 
 {% block title %}Yeni Yatırım Hesabı Aç - BetikBank{% endblock %}
@@ -6,7 +7,9 @@
 <div class="form-container">
     <div class="form-card">
         <h2>Yeni Yatırım Hesabı Aç</h2>
+        <!-- Yatırım Hesabı Açma Formu -->
         <form method="POST" action="{{ url_for('new_investment') }}" class="investment-form">
+            <!-- Yatırım Türü Seçimi -->
             <div class="form-group">
                 <label for="yatirim_turu">Yatırım Türü</label>
                 <select id="yatirim_turu" name="yatirim_turu" required>
@@ -19,11 +22,15 @@
                 </select>
                 <small class="form-hint">Yatırım yapmak istediğiniz türü seçiniz</small>
             </div>
+            
+            <!-- Başlangıç Tutarı (Opsiyonel) -->
             <div class="form-group">
                 <label for="baslangic_tutar">Başlangıç Tutarı (TL) - Opsiyonel</label>
                 <input type="number" id="baslangic_tutar" name="baslangic_tutar" step="0.01" min="0" value="0" placeholder="0.00">
                 <small class="form-hint">Mevcut bakiyeniz: {{ "%.2f"|format(toplam_bakiye) }} TL</small>
             </div>
+            
+            <!-- Bilgilendirme Kutusu -->
             <div class="info-box">
                 <strong>ℹ️ Bilgi:</strong>
                 <ul>
@@ -32,6 +39,8 @@
                     <li>Yatırım hesabınızı açtıktan sonra istediğiniz zaman para yatırabilirsiniz.</li>
                 </ul>
             </div>
+            
+            <!-- Form Butonları -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary btn-full">Yatırım Hesabı Aç</button>
                 <a href="{{ url_for('investment') }}" class="btn btn-secondary btn-full">İptal</a>
@@ -40,5 +49,8 @@
     </div>
 </div>
 {% endblock %}
+
+
+
 
 

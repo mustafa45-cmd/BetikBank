@@ -1,14 +1,17 @@
+<!-- Kartlar Sayfası - Kullanıcının tüm kartlarını listeler -->
 {% extends "base.html" %}
 
 {% block title %}Kartlarım - BetikBank{% endblock %}
 
 {% block content %}
 <div class="container">
+    <!-- Sayfa Başlığı ve Yeni Kart Butonu -->
     <div class="page-header">
         <h1 class="page-title">Kartlarım</h1>
         <a href="{{ url_for('new_card') }}" class="btn btn-primary">+ Yeni Kart Oluştur</a>
     </div>
 
+    <!-- Kartlar Listesi -->
     {% if kartlar %}
     <div class="cards-list">
         {% for kart in kartlar %}
@@ -71,5 +74,8 @@
     {% endif %}
 </div>
 {% endblock %}
+
+
+
 
 
